@@ -1,6 +1,6 @@
-# Currency_Converter
+# Currency Converter
 
-A small JavaScript app that allows the user to convert currencies!
+A small single-page JavaScript app that allows the user to convert currencies!
 
 ### To Use
 
