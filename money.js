@@ -1,8 +1,9 @@
 const fromSelect = document.querySelector('[name="from_currency"]');
 const toSelect = document.querySelector('[name="to_currency"]');
 
-const endpoint = 'http://api.exchangeratesapi.io/v1/latest';
-const apiKey = ''; // INSERT YOUR API KEY WITHIN THE PARENTHESES
+const endpoint = 'http://api.frankfurter.app/latest';
+
+const ratesByBase = {};
 
 const currencies = {
   USD: 'United States Dollar',
@@ -48,10 +49,27 @@ function generateOptions(options) {
     .join('');
 }
 
-async function fetchRates() {
-  const res = await fetch(`${endpoint}?access_key=${apiKey}`);
+async function fetchRates(base = 'USD') {
+  const res = await fetch(`${endpoint}?from=${base}`);
   const rates = await res.json();
-  console.log(rates);
+  return rates;
+}
+
+async function convert(amount, from, to) {
+  if (!ratesByBase[from]) {
+    console.log(
+      `Oh no! We don't seem to have ${from} to convert to ${to}. So let's go get it!`
+    );
+    const rates = await fetchRates(from);
+    console.log(rates);
+    // Store them for next time
+    ratesByBase[from] = rates;
+  }
+  // Convert the amount that was passed in
+  const rate = ratesByBase[from].rates[to];
+  const convertedAmount = rate * amount;
+  console.log(`${amount} ${from} is ${convertedAmount} in ${to}`);
+  return convertedAmount;
 }
 
 const optionsHTML = generateOptions(currencies);
