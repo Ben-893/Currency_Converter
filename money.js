@@ -1,5 +1,8 @@
 const fromSelect = document.querySelector('[name="from_currency"]');
+const fromInput = document.querySelector('[name="from_amount"]');
 const toSelect = document.querySelector('[name="to_currency"]');
+const toEl = document.querySelector('.to_amount');
+const form = document.querySelector('.app form');
 
 const endpoint = 'http://api.frankfurter.app/latest';
 
@@ -72,8 +75,19 @@ async function convert(amount, from, to) {
   return convertedAmount;
 }
 
+async function handleInput(e) {
+  const rawAmount = await convert(
+    fromInput.value,
+    fromSelect.value,
+    toSelect.value
+  );
+  toEl.textContent = rawAmount;
+}
+
 const optionsHTML = generateOptions(currencies);
 
 // On pageload populate the options elements
 fromSelect.innerHTML = optionsHTML;
 toSelect.innerHTML = optionsHTML;
+
+form.addEventListener('input', handleInput);
