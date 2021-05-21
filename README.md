@@ -2,6 +2,8 @@
 
 A small Single-Page JavaScript app that allows the user to convert any currencies! Give it a go! Cha-Ching 💵 💶
 
+![demo](./demo.gif)
+
 ### To Use
 
 - Open the index.html file in the browser
